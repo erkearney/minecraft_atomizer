@@ -1,6 +1,6 @@
-cobblestone, 3.0
-coal_ore, 0.125
-iron_ore, 1.0
-log, 0.75
-redstone_ore, 0.2
+cobblestone, 0
+coal_ore, 0.25
+iron_ore, 0
+log, 0.03125
+redstone_ore, 0
 netherquartz_ore, 0
