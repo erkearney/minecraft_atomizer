@@ -1,9 +1,10 @@
-#import argparse
-#
-#parser = argparse.ArgumentParser(description="Minecraft item atomizer")
-#parser.add_argument("item_name", nargs=1, help="Name of the minecraft item to atomize")
-#args = parser.parse_args()
-#(ITEM_NAME,) = args.item_name
+import argparse
+import sys
+
+parser = argparse.ArgumentParser(description="Minecraft item atomizer")
+parser.add_argument("item_name", nargs=1, help="Name of the minecraft item to atomize")
+args = parser.parse_args()
+(ITEM_NAME,) = args.item_name
 
 recipes = {}
 
@@ -44,6 +45,9 @@ raw_materials = {
     'netherquartz_ore' : 0
 }
 
+ITEM_TO_ATOMIZE = getattr(sys.modules[__name__], ITEM_NAME)
+print(ITEM_TO_ATOMIZE)
+
 def atomize(item, num=1):
     #print("Reducing {} {}".format(num, item.name))
     materials = item.materials
@@ -59,5 +63,5 @@ def atomize(item, num=1):
             atomize(i[0], i[1] / num_produced * num)
          
 
-atomize(piston)
+atomize(ITEM_TO_ATOMIZE)
 print(raw_materials)
