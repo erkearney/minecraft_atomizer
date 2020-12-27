@@ -1,6 +1,24 @@
+'''
+This module will take a text file and alphabetize it.
+
+Example
+-------
+    $ python alphabetize.py items.csv
+Alphabetizes items.csv by the first character on each line.
+'''
 import argparse
 
 def get_file_to_alphabetize():
+    '''
+    Sets up command-line arguments and gets to file to be alphabeitzed.
+
+    Attributs
+    ---------
+    parser : ArgumentParser
+        Parses command-line arguments
+
+    args : Parsed Arguments
+    '''
     parser = argparse.ArgumentParser(description="Alphabetize a file")
     parser.add_argument('file', nargs='?', default='items.csv')
     args = parser.parse_args()
@@ -9,16 +27,27 @@ def get_file_to_alphabetize():
 
 
 def alphabetize_file(filename):
-    with open(filename, 'r+') as f:
-        lines = f.readlines()
+    '''
+    Alphabetizes filename
+
+    Attributes
+    ----------
+    file_to_alphabetize : file
+        The file to be alphabetized
+
+    lines : list
+        List of the lines from filename
+    '''
+    with open(filename, 'r+') as file_to_alphabetize:
+        lines = file_to_alphabetize.readlines()
         lines.sort()
-        f.seek(0)
+        file_to_alphabetize.seek(0)
         for line in lines:
-            f.write(line)
-    f.close()
-    
+            file_to_alphabetize.write(line)
+    file_to_alphabetize.close()
 
 
 if __name__ == '__main__':
+    # Hard-code this line if running from an IDE
     FILE = get_file_to_alphabetize()
     alphabetize_file(FILE)
