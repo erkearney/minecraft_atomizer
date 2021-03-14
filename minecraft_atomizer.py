@@ -132,6 +132,8 @@ def read_items_from_csv(csv_filename):
         csv_items = {}
         items_csv = csv.reader(csvfile)
         for line in items_csv:
+            if DEBUG:
+                print('Now reading line: {}'.format(line))
             item_name = line[0]
             item_quantity = int(line[1])
             materials = line[2:]
