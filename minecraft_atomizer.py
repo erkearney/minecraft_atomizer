@@ -5,28 +5,30 @@ build a larger project, or for making trades between players. An items.csv
 file containing minecraft item names, that items' yield upon crafting
 (e.g., 4 for torch), and the items along with the quantities of those items
 required to create those items must be placed in the same directory as this
-script. Such a file can be obtained on my github TODO: Add link.
+script. Such a file can be obtained on my github:
+
+https://github.com/erkearney/minecraft_atomizer
 
 Examples
 --------
-    $ python minecraft_atomizer.py torch
 
+    $ python minecraft_atomizer.py torch
 Outputs coal_ore: 0.25, log: 0.03125, as these are the base items required to
 produce 1 torch
 
     $ python minecraft_atomizer.py piston -w
-
 Outputs cobbleston: 3.0, coal_ore: 0.125, iron_ore: 1.0, log: 0.75,
 redstone_ore: 0.2. Also writes these results to a file called output.txt
 
 Attributes
 ----------
+
 ITEM_NAME : string (default: torch)
     The name of the minecraft atom to be atomized
-
+    
 WRITE : bool
     If true, write the results of atomization to a file called output.txt
-
+    
 DEBUG : bool
     If true, be verbose
 '''
@@ -40,30 +42,34 @@ DEBUG = False
 def setup_args():
     '''
     Sets up command-line arguments
-
     If running from an IDE instead of the command line, simply set these
     values here (e.g., ITEM_NAME = 'torch', WRITE = TRUE, etc.)
-
+    
     Attributes
     ----------
+    
     ITEM_NAME : string (optional, default='torch')
         The name of the item to be atomized
-
+    
     WRITE : bool (optional, default=False)
         If True, write the results of the atmoization to a file called
         output.txt
-
+    
     DEBUG : bool (optional, default=False)
         if True, print out useful debug information
-
+    
+    REDUCED : bool (optional, default=False)
+        if True, reduces the output to only pertinent raw materials
+    
     parser : ArgumentParser
         Parses command-line arguments
-
+    
     args : Parsed Arguments
     '''
     global ITEM_NAME
     global WRITE
     global DEBUG
+    global REDUCED
 
     parser = argparse.ArgumentParser(description='Minecraft item atomizer')
     parser.add_argument('ITEM_NAME', nargs='?', default='torch',
@@ -72,20 +78,53 @@ def setup_args():
         help='Write the atomized results to a file called output')
     parser.add_argument('-d', '--DEBUG', action='store_true',
         help='Be verbose')
+    parser.add_argument('-r', '--REDUCED', action='store_true',
+        help='Reduce final output only to used components')
     args = parser.parse_args()
 
     ITEM_NAME = args.ITEM_NAME
     WRITE = args.WRITE
     DEBUG = args.DEBUG
+    REDUCED = args.REDUCED
 
 
 raw_materials = {
-    'cobblestone' : 0,
+    'apple' : 0,
+    'beetroot' : 0,
+    'blaze_rod' : 0,
+    'bone' : 0,
+    'chorus_fruit' : 0,
     'coal_ore' : 0,
+    'cobblestone' : 0,
+    'crying_obsidian' : 0,
+    'dandelion' : 0,
+    'diamond_ore' : 0,
+    'egg' : 0,
+    'ender_pearl' : 0,
+    'feather' : 0,
+    'glowstone_dust' : 0,
+    'gold_ore' : 0,
+    'gravel' : 0,
+    'gunpowder' : 0,
     'iron_ore' : 0,
+    'leather' : 0,
     'log' : 0,
+    'milk' : 0,
+    'netherquartz_ore' : 0,
+    'obsidian' : 0,
+    'poppy' : 0,
+    'prismarine_shard' : 0,
+    'prismarine_crystal' : 0,
+    'pumpkin' : 0,
+    'red_tulip' : 0,
     'redstone_ore' : 0,
-    'netherquartz_ore' : 0
+    'sand' : 0,
+    'slime_ball' : 0,
+    'string' : 0,
+    'sugar_cane' : 0,
+    'sunflower' : 0,
+    'wheat' : 0,
+    'wool' : 0
 }
 
 
@@ -93,34 +132,34 @@ def read_items_from_csv(csv_filename):
     '''
     Reads in minecraft items from a comma separated file which by default
     will be called items.csv
-
+    
     Attributes
     ----------
+    
     csv_filename : string
         The name of the csv file to read the items from
-
+    
     csv_items : dictionary {string : list}
         Contains the items once they've been read in. The key is the name of
         the item and the value is the list of materials, along with their
         required quantities to produce ONE of that item.
         (e.g., 'torch' : ['coal',0.25,'stick',0.25])
-
+    
     items_csv : csvfile
         A temporary variable for the csvfile while it's being read
-
+    
     item_name : string
         The first value in a line of the csv file, the item's name
-
+    
     item_quanitity : int
         The second value in a line of the csv file, the number of that item
         that are produced with a single 'recipe', (i.e., it's impossible to
         create a single torch, they are created four at a time)
-
+    
     materials : list
         The remaining values in a line of the csv file, formatted as the name
         of the item required, followed by the quantity of that item
-
-
+    
     Example line in the csv file:
         torch,4,coal,1,stick,1
         Indicated that 4 torches can be created using 1 stick and 1 coal
@@ -151,19 +190,20 @@ def read_items_from_csv(csv_filename):
 def atmoize(csv_items, item, quantity=1):
     '''
     Recursively reduced an item down to its base components
-
+    
     Attributes
     ---------
+    
     csv_items : dictionary {string : list}
         A dictionary of items that should have been created with
         read_items_from_csv
-
+    
     item : string
         The name of the item to be atomized
-
+    
     quantity : int
         The number of items required in the recipe
-
+    
     raw_materials : dictionary {string : int}
         Conatains the results of the atomization (e.g., log : 0.75)
     '''
@@ -185,12 +225,13 @@ def atmoize(csv_items, item, quantity=1):
 def write_to_csv(filename):
     '''
     Writes results to a csvfile called filename
-
+    
     Attributes
     ----------
-    filename : string
+    
+	filename : string
         Name of the file to write results to
-
+    
     raw_materials : dictionary {string : int}
         Conatains the results of the atomization (e.g., log : 0.75)
     '''
@@ -206,6 +247,13 @@ if __name__ == '__main__':
     setup_args()
     imported_csv_items = read_items_from_csv('items.csv')
     atmoize(imported_csv_items, ITEM_NAME)
-    print(raw_materials)
+    if REDUCED:    
+        print("\n───────────────────────────────────")
+        for i in raw_materials:
+            if (raw_materials[i] > 0):
+                print('{:1s} {:18s} {:3s} {:3.5f} {:3s} '.format("│",i," │ ",raw_materials[i]," │ "))
+                print("───────────────────────────────────")
+    else:
+        print(raw_materials)
     if WRITE:
         write_to_csv('output')
