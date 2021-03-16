@@ -190,11 +190,9 @@ brown_stained_glass_pane,8,glass_pane,8,brown_dye,1
 brown_terracotta,8,terracotta,8,brown_dye,1
 brown_wool,1,wool,1
 brown_wool,1
-bucket,1,iron_ingot,2
 bucket,1,iron_ingot,3
 bundle,1,rabbit_hide,3
 cake,1,milk_bucket,3,sugar,2,egg,1,wheat,3
-cake,1,sugar,1,egg,1,wheat,2
 campfire,1,stick,1,spruce_log,2,stripped_warped_hyphae,1
 campfire,1,stick,3,coals,1,logs,3
 candle,1,honeycomb,1
@@ -711,6 +709,8 @@ melon,1,melon_slice,9
 melon,1,melon_slice,4
 melon_seeds,1
 melon_seeds,1,melon_slice,1
+milk,1
+milk_bucket,1,milk,1,bucket,1
 minecart,1,iron_ingot,3
 minecart,1,iron_ingot,5
 minecart_with_chest,1,chest,1,minecart,1
@@ -1121,9 +1121,7 @@ stripped_oak_wood,3,stripped_oak_log,4
 stripped_spruce_wood,3,stripped_spruce_log,4
 stripped_warped_hyphae,3,stripped_warped_stem,2
 stripped_warped_hyphae,3,stripped_warped_stem,4
-sugar,1
 sugar,1,sugar_cane,1
-sugar,3
 sugar_cane,1
 sunflower,1
 suspicious_stew,1,red_mushroom,1,cornflower,1,bowl,1,dandelion,1
